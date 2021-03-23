@@ -11,7 +11,10 @@ public class Main {
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             PetrolStations p = (PetrolStations) jaxbUnmarshaller.unmarshal(file);
-            System.out.println(p.getDate());
+            System.out.println(p);
+           for(PetrolStation ps : p.getPetrolStationList()){
+              System.out.println(ps.toString());
+           }
         }catch (JAXBException e){
             e.printStackTrace();
         }

@@ -1,19 +1,17 @@
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
+import javax.xml.bind.annotation.*;
 
-@XmlRootElement
-public class Fuel implements Serializable {
+
+//@XmlRootElement(name="fuel")
+public class Fuel {
+
     private String type;
     private double price;
 
     public Fuel(){ }
 
     public Fuel(String type, double price) {
-        super();
-        this.type = type;
-        this.price = price;
+       this.setType(type);
+        this.setPrice(price);
     }
 
     @XmlAttribute
@@ -25,7 +23,7 @@ public class Fuel implements Serializable {
         this.type = type;
     }
 
-    @XmlElement
+    @XmlElement(name="price")
     public double getPrice() {
         return price;
     }

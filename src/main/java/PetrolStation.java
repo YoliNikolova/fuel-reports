@@ -1,22 +1,20 @@
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
-import java.util.List;
 
-@XmlRootElement
-public class PetrolStation implements  Serializable{
+
+@XmlRootElement(name = "petrolStation")
+public class PetrolStation {
+
     private String name;
     private String address;
     private String city;
-    List<Fuel> fuels;
+    ArrayList<Fuel> fuels;
 
-    public PetrolStation(){ }
+    public PetrolStation() {
+    }
 
-    public PetrolStation(String name, String address, String city,List<Fuel> fuels) {
-        super();
+    public PetrolStation(String name, String address, String city, ArrayList<Fuel> fuels) {
         this.setName(name);
         this.setAddress(address);
         this.setCity(city);
@@ -50,12 +48,16 @@ public class PetrolStation implements  Serializable{
         this.name = name;
     }
 
-    @XmlElement
-    public List<Fuel> getFuels() {
+    @XmlElementWrapper
+    @XmlElement(name = "fuel")
+    public ArrayList<Fuel> getFuels() {
+        if (this.fuels == null) {
+            this.fuels = new ArrayList<Fuel>();
+        }
         return fuels;
     }
 
-    public void setFuels(List<Fuel> fuels) {
+    public void setFuels(ArrayList<Fuel> fuels) {
         this.fuels = fuels;
     }
 
@@ -63,7 +65,7 @@ public class PetrolStation implements  Serializable{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getName()).append(System.lineSeparator());
-        for (Fuel fuel : fuels) {
+        for (Fuel fuel : this.getFuels()) {
             sb.append(fuel.toString()).append(System.lineSeparator());
         }
         return sb.toString().trim();
