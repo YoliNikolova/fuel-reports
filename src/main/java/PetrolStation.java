@@ -9,15 +9,15 @@ public class PetrolStation {
     private String name;
     private String address;
     private String city;
-    private ArrayList<Fuel> fuels;
+    ArrayList<Fuel> fuels;
 
     public PetrolStation() {
     }
 
     public PetrolStation(String name, String address, String city, ArrayList<Fuel> fuels) {
-        this.name=name;
-        this.address=address;
-        this.city=city;
+        this.setName(name);
+        this.setAddress(address);
+        this.setCity(city);
         this.fuels = fuels;
     }
 
