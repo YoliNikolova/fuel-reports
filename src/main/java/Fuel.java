@@ -1,19 +1,23 @@
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Fuel {
 
+    @XmlAttribute(name = "type")
     private String type;
-    private double price;
+
+    @XmlJavaTypeAdapter(AdapterPrice.class)
+    private Double price;
 
     public Fuel(){ }
 
     public Fuel(String type, double price) {
-       this.type=type;
-        this.price=price;
+       this.setType(type);
+       this.setPrice(price);
     }
 
-    @XmlAttribute
     public String getType() {
         return type;
     }
@@ -22,12 +26,11 @@ public class Fuel {
         this.type = type;
     }
 
-    @XmlElement(name="price")
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
