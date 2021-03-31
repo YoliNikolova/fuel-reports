@@ -1,8 +1,13 @@
+package parsingXML;
+
+import structure.*;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class parserJAXB {
     public static List<PetrolStations> unmarshal(File file) {

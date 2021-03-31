@@ -1,3 +1,5 @@
+package structure;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 public class AdapterPrice extends XmlAdapter<String,Double> {
