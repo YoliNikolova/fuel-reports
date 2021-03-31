@@ -1,4 +1,5 @@
 package sql;
+
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,54 +9,72 @@ import structure.*;
 import parsingXML.*;
 
 public class DBinsert {
-    public static int idPetrolStation = 0;
-    public static int idFuel = 0;
+    private int idPetrolStation;
+    private int idFuel;
 
-    public static void main(String[] args) {
-        Connection con = null;
-        PreparedStatement stmt = null;
-        con = DBconnect.connectDB();
+    public DBinsert() {
+        this.idPetrolStation = -1;
+        this.idFuel = -1;
+        this.insertData();
+    }
+
+    public int getIdFuel() {
+        return idFuel;
+    }
+
+    public int getIdPetrolStation() {
+        return idPetrolStation;
+    }
+
+    private void setIdFuel(int idFuel) {
+        this.idFuel = idFuel;
+    }
+
+    private void setIdPetrolStation(int idPetrolStation) {
+        this.idPetrolStation = idPetrolStation;
+    }
+
+    private void insertData() {
+        Connection con = DBconnect.connectDB();
         try {
-            File file = new File("C:\\Users\\Asus\\Desktop\\demo\\filesTest");
-            List<PetrolStations> allPetrolStations = parserJAXB.unmarshal(file);
-            insertToFuelTable(con, allPetrolStations);
+            File file = new File("C:\\Users\\Asus\\Desktop\\demo\\allFiles");
+            List<PetrolStations> allPetrolStations = JAXBparser.unmarshal(file);
             for (PetrolStations p : allPetrolStations) {
                 for (PetrolStation ps : p.getPetrolStationList()) {
+                    insertToFuelTable(con, ps.getFuels());
                     insertToPetrolStationTable(con, ps);
                     insertToPriceTable(con, p, ps);
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
-    private static void insertToPriceTable(Connection con, PetrolStations p, PetrolStation ps) throws SQLException {
-        PreparedStatement stmt;
+    private void insertToPriceTable(Connection con, PetrolStations p, PetrolStation ps) throws SQLException {
         for (Fuel f : ps.getFuels()) {
-            idPetrolStation = getIdPetrolStation(con, ps);
-            idFuel = getIdFuel(con, f);
+            this.setIdPetrolStation(getIdPetrolStation(con, ps));
+            this.setIdFuel(getIdFuel(con, f));
             String dateString = p.getDate();
             Date date = Date.valueOf(dateString);
             Double priceValue = f.getPrice();
-            String sqlPrice = "INSERT into mydatabase1.price(value,date,petrolStation_id,fuel_id) VALUES(?,?,?,?)";
-            stmt = con.prepareStatement(sqlPrice);
+            String sqlPrice = "INSERT into price(value,date,petrolStation_id,fuel_id) VALUES(?,?,?,?)";
+            PreparedStatement stmt = con.prepareStatement(sqlPrice);
             stmt.setDouble(1, priceValue);
             stmt.setDate(2, date);
-            stmt.setInt(3, idPetrolStation);
-            stmt.setInt(4, idFuel);
+            stmt.setInt(3, this.idPetrolStation);
+            stmt.setInt(4, this.idFuel);
             stmt.executeUpdate();
             stmt.close();
         }
     }
 
-    private static void insertToPetrolStationTable(Connection con, PetrolStation ps) throws SQLException {
-        PreparedStatement stmt;
+    private void insertToPetrolStationTable(Connection con, PetrolStation ps) throws SQLException {
         String city = ps.getCity();
         String namePetrolStation = ps.getName();
         String address = ps.getAddress();
-        String sqlPetrolStation = "INSERT into mydatabase1.petrolStation(name,address,city) VALUES(?,?,?)";
-        stmt = con.prepareStatement(sqlPetrolStation);
+        String sqlPetrolStation = "INSERT into petrolStation(name,address,city) VALUES(?,?,?)";
+        PreparedStatement stmt = con.prepareStatement(sqlPetrolStation);
         stmt.setString(1, namePetrolStation);
         stmt.setString(2, address);
         stmt.setString(3, city);
@@ -63,41 +82,40 @@ public class DBinsert {
         stmt.close();
     }
 
-    private static void insertToFuelTable(Connection con, List<PetrolStations> allPetrolStations) throws SQLException {
-        PreparedStatement stmt;
-        ArrayList<Fuel> fuels = allPetrolStations.get(0).getPetrolStationList().get(0).getFuels();
+    private void insertToFuelTable(Connection con, ArrayList<Fuel> fuels) throws SQLException {
         for (Fuel fuel : fuels) {
             String type = fuel.getType();
-            String sqlFuel = "INSERT into mydatabase1.fuel(type) VALUES(?)";
-            stmt = con.prepareStatement(sqlFuel);
+            String sqlFuel = "INSERT into fuel(type) VALUES(?) ON DUPLICATE KEY UPDATE type= ? ";
+            PreparedStatement stmt = con.prepareStatement(sqlFuel);
             stmt.setString(1, type);
+            stmt.setString(2, type);
             stmt.executeUpdate();
             stmt.close();
         }
-        System.out.println("Add data in fuel table.");
     }
 
-    static int getIdPetrolStation(Connection con, PetrolStation ps) throws SQLException {
-        String sql = "SELECT id FROM mydatabase1.petrolstation WHERE name=? AND address=? AND city=? LIMIT 1";
-        PreparedStatement stat = con.prepareStatement(sql);
-        stat.setString(1, ps.getName());
-        stat.setString(2, ps.getAddress());
-        stat.setString(3, ps.getCity());
-        ResultSet rs = stat.executeQuery();
+    private int getIdPetrolStation(Connection con, PetrolStation ps) throws SQLException {
+        String sql = "SELECT id FROM petrolstation WHERE name=? AND address=? AND city=? LIMIT 1";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, ps.getName());
+        stmt.setString(2, ps.getAddress());
+        stmt.setString(3, ps.getCity());
+        ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            idPetrolStation = rs.getInt("id");
+            this.setIdPetrolStation(rs.getInt("id"));
         }
-        return idPetrolStation;
+        return this.idPetrolStation;
     }
 
-    static int getIdFuel(Connection con, Fuel f) throws SQLException {
-        String sql = "SELECT id FROM mydatabase1.fuel WHERE type=? LIMIT 1";
-        PreparedStatement stat = con.prepareStatement(sql);
-        stat.setString(1, f.getType());
-        ResultSet rs = stat.executeQuery();
+    private int getIdFuel(Connection con, Fuel f) throws SQLException {
+        String sql = "SELECT id FROM fuel WHERE type=? LIMIT 1";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, f.getType());
+        ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            idFuel = rs.getInt("id");
+            this.setIdFuel(rs.getInt("id"));
         }
-        return idFuel;
+        return this.idFuel;
     }
 }
+

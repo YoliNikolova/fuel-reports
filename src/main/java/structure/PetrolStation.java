@@ -13,7 +13,7 @@ public class PetrolStation {
     private String name;
     private String address;
     private String city;
-    ArrayList<Fuel> fuels;
+    private ArrayList<Fuel> fuels;
 
     public PetrolStation() {
     }
