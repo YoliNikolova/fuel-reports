@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public final class JAXBparser {
     public static List<PetrolStations> unmarshal(File file) {
         List<PetrolStations> listToReturn = new ArrayList<>();
-       try {
+        try {
             File[] allFiles = file.listFiles();
             for (File f : allFiles) {
                 JAXBContext jaxbContext = JAXBContext.newInstance(PetrolStations.class);
