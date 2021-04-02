@@ -1,16 +1,18 @@
+package SFTP;
+
 import com.jcraft.jsch.*;
 
 import java.util.Vector;
 
-public class SFTPFileTransfer {
+public final class SFTPFileTransfer {
     private static final String remoteHost = "fe.ddns.protal.biz";
     private static final String username = "sftpuser";
     private static final String password = "hyperpass";
     private static final int port = 22;
     private static final String remoteDir = "/xml-data";
-    private static final String localDir = "C:\\Users\\Asus\\Desktop\\demo\\XMLparse\\project1\\src\\main\\resources\\downloadedFiles";
+    private static final String localDir = "C:\\Users\\Asus\\Desktop\\demo\\allFiles";
 
-    public static void main(String[] args) {
+    public static void filesTransfer() {
         Session jschSession = null;
         try {
             JSch jsch = new JSch();
@@ -20,7 +22,6 @@ public class SFTPFileTransfer {
             jschSession.connect();
             Channel sftp = jschSession.openChannel("sftp");
             sftp.connect();
-            System.out.println("SFTP channel created");
 
             ChannelSftp channelSftp = (ChannelSftp) sftp;
             channelSftp.cd(remoteDir);
@@ -38,6 +39,6 @@ public class SFTPFileTransfer {
                 jschSession.disconnect();
             }
         }
-        System.out.println("Done");
+        System.out.println("Files are downloaded");
     }
 }

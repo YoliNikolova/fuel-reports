@@ -1,23 +1,13 @@
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
+import SFTP.SFTPFileTransfer;
+import sql.DBcreate;
+import sql.DBinsert;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            File file = new File("C:\\Users\\Asus\\Desktop\\demo\\file.xml");
-            JAXBContext jaxbContext = JAXBContext.newInstance(PetrolStations.class);
-
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            PetrolStations p = (PetrolStations) jaxbUnmarshaller.unmarshal(file);
-            System.out.println(p);
-           for(PetrolStation ps : p.getPetrolStationList()){
-              System.out.println(ps.toString());
-           }
-        }catch (JAXBException e){
-            e.printStackTrace();
-        }
-
+        SFTPFileTransfer.filesTransfer();
+        DBcreate crateTables = new DBcreate();
+        DBinsert insertData = new DBinsert();
+        System.out.println("Done: Insert data");
     }
+
 }

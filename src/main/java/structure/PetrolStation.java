@@ -1,5 +1,9 @@
+package structure;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
 
@@ -15,9 +19,9 @@ public class PetrolStation {
     }
 
     public PetrolStation(String name, String address, String city, ArrayList<Fuel> fuels) {
-        this.name=name;
-        this.address=address;
-        this.city=city;
+        this.setName(name);
+        this.setAddress(address);
+        this.setCity(city);
         this.fuels = fuels;
     }
 
