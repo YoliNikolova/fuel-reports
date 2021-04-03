@@ -1,38 +1,22 @@
-package commands;
+package entrypoints;
 
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
-import sql.DBconnect;
-
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import commands.ReportCommands;
+import repository.ReportRepository;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Report {
-    @Parameter(names = "--period", description = "Get period", required = true)
-    String period;
-
-    @Parameter(names = "--fuel-type", description = "Get fuelType", required = false)
-    String fuelType;
-
-    @Parameter(names = "--petrol-station", description = "Get petrolStation", required = false)
-    String petrolStation;
-
-    @Parameter(names = "--city", description = "Get city", required = false)
-    String cityName;
-
     public static void main(String... args) throws SQLException {
-        Report report = new Report();
+        ReportCommands reportCommands = new ReportCommands();
         JCommander.newBuilder()
-                .addObject(report)
+                .addObject(reportCommands)
                 .build()
                 .parse(args);
-        report.selectDataFromDatabase();
+        ReportRepository reportRepository=new ReportRepository();
+        reportRepository.run(reportCommands);
     }
-
+/*
     private void selectDataFromDatabase() throws SQLException {
         List<String> params = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -81,4 +65,6 @@ public class Report {
         }
     }
 
+
+ */
 }

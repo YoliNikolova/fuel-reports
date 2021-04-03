@@ -4,8 +4,10 @@ import java.io.File;
 import java.sql.*;
 import java.util.List;
 
-import structure.*;
-import parsingXML.*;
+import xml.parsingXML.JAXBparser;
+import xml.models.Fuel;
+import xml.models.PetrolStation;
+import xml.models.PetrolStations;
 
 public class DBinsert {
     private int idPetrolStation;

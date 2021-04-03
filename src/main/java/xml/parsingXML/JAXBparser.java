@@ -1,6 +1,6 @@
-package parsingXML;
+package xml.parsingXML;
 
-import structure.*;
+import xml.models.PetrolStations;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

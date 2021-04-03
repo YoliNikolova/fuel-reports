@@ -1,4 +1,4 @@
-package SFTP;
+package sftp;
 
 import com.jcraft.jsch.*;
 import sql.DBSelect;

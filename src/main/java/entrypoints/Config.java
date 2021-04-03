@@ -1,30 +1,22 @@
-package commands;
+package entrypoints;
 
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
-import sql.DBconnect;
-import sql.DBcreate;
-
-import java.sql.PreparedStatement;
+import commands.ConfigCommands;
+import repository.ConfigRepository;
 import java.sql.SQLException;
 
 public class Config {
-    @Parameter(names = "--data-dir")
-    String localDir;
-
-    public String getLocalDir() {
-        return localDir;
-    }
 
     public static void main(String... args) throws SQLException {
-        Config config = new Config();
+        ConfigCommands configCommands = new ConfigCommands();
         JCommander.newBuilder()
-                .addObject(config)
+                .addObject(configCommands)
                 .build()
                 .parse(args);
-        config.insertConfigFolder();
+        ConfigRepository configRepository = new ConfigRepository();
+        configRepository.run(configCommands);
     }
-
+/*
     void insertConfigFolder() throws SQLException {
         DBcreate.createConfigTable();
         String insertConfigFolder = "INSERT into config(configFolder) VALUES(?)";
@@ -34,4 +26,6 @@ public class Config {
         stmt.close();
         System.out.println("Local dir is saved.");
     }
+
+ */
 }
