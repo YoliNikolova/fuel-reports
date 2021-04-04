@@ -2,7 +2,7 @@ package repository;
 
 import commands.ReportCommands;
 import sql.DBconnect;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,9 +17,11 @@ public class ReportRepository implements BaseRepository<ReportCommands> {
     }
 
     private Double selectDataFromDatabase(ReportCommands commands) throws SQLException {
-        Double avgPrice =0.0;
+        Double avgPrice = 0.0;
+        String[] periodArray = commands.getPeriod().split("-");
         List<String> params = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
+
         sb.append("SELECT ROUND(AVG(value),2) FROM price ");
         if (commands.getFuelType() != null) {
             sb.append("JOIN fuel ON price.fuel_id = fuel.id ");
@@ -27,8 +29,12 @@ public class ReportRepository implements BaseRepository<ReportCommands> {
         if (commands.getPetrolStation() != null || commands.getCityName() != null) {
             sb.append("JOIN petrolStation ON price.petrolStation_id = petrolStation.id ");
         }
-        sb.append("WHERE date = ?");
-        params.add(commands.getPeriod());
+
+        if (periodArray.length == 3) {
+            sb.append("WHERE convert(date,char(20)) LIKE '" + commands.getPeriod() + "' ");
+        } else{
+            sb.append("WHERE convert(date,char(20)) LIKE '" + commands.getPeriod() + "%'");
+        }
 
         if (commands.getFuelType() != null) {
             sb.append(" AND fuel.type=?");
@@ -43,25 +49,20 @@ public class ReportRepository implements BaseRepository<ReportCommands> {
             params.add(commands.getCityName());
         }
 
-        Date date = Date.valueOf(commands.getPeriod());
         PreparedStatement stmt = DBconnect.con.prepareStatement(sb.toString());
 
         StringBuilder output = new StringBuilder();
-        output.append("Calculate average price for ");
+        output.append("Calculate average price for ").append(commands.getPeriod());
         for (int i = 0; i < params.size(); i++) {
-            if (i == 0) {
-                stmt.setDate(i + 1, date);
-                output.append(commands.getPeriod());
-            } else {
-                stmt.setString(i + 1, params.get(i));
-                output.append(", ").append(params.get(i));
-            }
+            stmt.setString(i + 1, params.get(i));
+            output.append(", ").append(params.get(i));
         }
+
         System.out.println(output.toString().trim());
         System.out.print("Average price: ");
         ResultSet resultSet = stmt.executeQuery();
         while (resultSet.next()) {
-            avgPrice=resultSet.getDouble("ROUND(AVG(value),2)");
+            avgPrice = resultSet.getDouble("ROUND(AVG(value),2)");
         }
         return avgPrice;
     }
