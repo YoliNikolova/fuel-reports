@@ -16,16 +16,4 @@ public class Config {
         ConfigRepository configRepository = new ConfigRepository();
         configRepository.run(configCommands);
     }
-/*
-    void insertConfigFolder() throws SQLException {
-        DBcreate.createConfigTable();
-        String insertConfigFolder = "INSERT into config(configFolder) VALUES(?)";
-        PreparedStatement stmt = DBconnect.con.prepareStatement(insertConfigFolder);
-        stmt.setString(1, getLocalDir());
-        stmt.executeUpdate();
-        stmt.close();
-        System.out.println("Local dir is saved.");
-    }
-
- */
 }

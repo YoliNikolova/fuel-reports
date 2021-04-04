@@ -19,13 +19,4 @@ public class Process {
         ProcessRepository processRepository = new ProcessRepository();
         processRepository.run(processCommands);
     }
-
-   /* public void run() {
-        SFTPFileTransfer.filesTransfer(limit);
-        DBcreate crateTables = new DBcreate();
-        DBinsert insertData = new DBinsert();
-        System.out.println("Data is inserted");
-    }
-
-    */
 }
