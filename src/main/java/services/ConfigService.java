@@ -6,7 +6,7 @@ import sql.DBcreate;
 
 import java.sql.SQLException;
 
-public class ConfigService implements BaseService<ConfigCommands> {
+public class ConfigService implements Process<ConfigCommands> {
     private ConfigRepository configRepository;
 
     public ConfigService(ConfigRepository configRepository) {

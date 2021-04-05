@@ -6,14 +6,12 @@ import sql.DBconnect;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReportRepository {
 
     public void selectDataFromDatabase(ReportCommands commands) throws SQLException {
-        Double avgPrice = 0.0;
         String[] periodArray = commands.getPeriod().split("-");
         List<String> params = new ArrayList<>();
         StringBuilder sb = new StringBuilder();

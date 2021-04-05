@@ -2,6 +2,6 @@ package services;
 
 import java.sql.SQLException;
 
-public interface BaseService<T>{
+public interface Process<T>{
     void run(T commands) throws SQLException;
 }

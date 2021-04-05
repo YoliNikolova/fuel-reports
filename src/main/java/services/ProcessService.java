@@ -12,7 +12,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProcessService implements BaseService<ProcessCommands> {
+public class ProcessService implements Process<ProcessCommands> {
     private ProcessRepository processRepository;
 
     public ProcessService(ProcessRepository processRepository) {
