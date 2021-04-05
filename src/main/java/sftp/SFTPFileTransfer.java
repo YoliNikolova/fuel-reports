@@ -27,11 +27,11 @@ public final class SFTPFileTransfer {
             ChannelSftp channelSftp = (ChannelSftp) sftp;
             channelSftp.cd(remoteDir);
 
-            ProcessRepository processRepository=new ProcessRepository();
+            ProcessRepository processRepository = new ProcessRepository();
             Vector fileList = channelSftp.ls(remoteDir);
-            for (int i = 2; i <= limit+2; i++) {
+            for (int i = 2; i <= limit + 2; i++) {
                 ChannelSftp.LsEntry entry = (ChannelSftp.LsEntry) fileList.get(i);
-                channelSftp.get(entry.getFilename(),processRepository.selectConfigLocalDir());
+                channelSftp.get(entry.getFilename(), processRepository.selectConfigLocalDir());
             }
             channelSftp.exit();
         } catch (JSchException | SftpException | SQLException e) {

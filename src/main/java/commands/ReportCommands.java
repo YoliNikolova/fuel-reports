@@ -15,7 +15,6 @@ public class ReportCommands {
     @Parameter(names = "--city", description = "Get city", required = false)
     String cityName;
 
-
     public ReportCommands() {
 
     }

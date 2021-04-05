@@ -12,7 +12,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProcessService implements Process<ProcessCommands> {
+public class ProcessService implements BaseService<ProcessCommands> {
     private ProcessRepository processRepository;
 
     public ProcessService(ProcessRepository processRepository) {
@@ -20,7 +20,7 @@ public class ProcessService implements Process<ProcessCommands> {
     }
 
     @Override
-    public void run(ProcessCommands commands) throws SQLException {
+    public void process(ProcessCommands commands) throws SQLException {
         SFTPFileTransfer.filesTransfer(commands.getLimit());
         DBcreate tables = new DBcreate();
         tables.createTables();

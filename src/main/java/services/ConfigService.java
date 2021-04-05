@@ -6,7 +6,7 @@ import sql.DBcreate;
 
 import java.sql.SQLException;
 
-public class ConfigService implements Process<ConfigCommands> {
+public class ConfigService implements BaseService<ConfigCommands> {
     private ConfigRepository configRepository;
 
     public ConfigService(ConfigRepository configRepository) {
@@ -14,7 +14,7 @@ public class ConfigService implements Process<ConfigCommands> {
     }
 
     @Override
-    public void run(ConfigCommands commands) throws SQLException {
+    public void process(ConfigCommands commands) throws SQLException {
         DBcreate.createConfigTable();
         configRepository.saveFolder(commands);
     }

@@ -16,6 +16,6 @@ public class Report {
                 .build()
                 .parse(args);
         ReportService reportService = new ReportService(new ReportRepository());
-        reportService.run(reportCommands);
+        reportService.process(reportCommands);
     }
 }

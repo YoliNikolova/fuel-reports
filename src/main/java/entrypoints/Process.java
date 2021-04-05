@@ -16,6 +16,6 @@ public class Process {
                 .build()
                 .parse(args);
         ProcessService processService = new ProcessService(new ProcessRepository());
-        processService.run(processCommands);
+        processService.process(processCommands);
     }
 }

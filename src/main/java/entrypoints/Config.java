@@ -16,6 +16,6 @@ public class Config {
                 .build()
                 .parse(args);
         ConfigService configService = new ConfigService(new ConfigRepository());
-        configService.run(configCommands);
+        configService.process(configCommands);
     }
 }

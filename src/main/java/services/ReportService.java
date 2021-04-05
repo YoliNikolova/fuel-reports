@@ -5,7 +5,7 @@ import repository.ReportRepository;
 
 import java.sql.SQLException;
 
-public class ReportService implements Process<ReportCommands> {
+public class ReportService implements BaseService<ReportCommands> {
     private ReportRepository reportRepository;
 
     public ReportService(ReportRepository reportRepository) {
@@ -13,7 +13,7 @@ public class ReportService implements Process<ReportCommands> {
     }
 
     @Override
-    public void run(ReportCommands commands) throws SQLException {
+    public void process(ReportCommands commands) throws SQLException {
         reportRepository.selectDataFromDatabase(commands);
     }
 }

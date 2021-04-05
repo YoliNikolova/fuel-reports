@@ -61,6 +61,5 @@ public class ReportRepository {
             System.out.print(resultSet.getString("fuel.type") + " - ");
             System.out.println(resultSet.getDouble("ROUND(AVG(value),2)") + "$");
         }
-
     }
 }
