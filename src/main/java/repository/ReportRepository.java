@@ -6,24 +6,21 @@ import sql.DBconnect;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReportRepository {
 
-    public Double selectDataFromDatabase(ReportCommands commands) throws SQLException {
+    public void selectDataFromDatabase(ReportCommands commands) throws SQLException {
         Double avgPrice = 0.0;
         String[] periodArray = commands.getPeriod().split("-");
         List<String> params = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
-        sb.append("SELECT ROUND(AVG(value),2) FROM price ");
-        if (commands.getFuelType() != null) {
+        sb.append("SELECT (fuel.type),ROUND(AVG(value),2) FROM price ");
             sb.append("JOIN fuel ON price.fuel_id = fuel.id ");
-        }
-        if (commands.getPetrolStation() != null || commands.getCityName() != null) {
             sb.append("JOIN petrolStation ON price.petrolStation_id = petrolStation.id ");
-        }
 
         if (periodArray.length == 3) {
             sb.append("WHERE convert(date,char(20)) LIKE '" + commands.getPeriod() + "' ");
@@ -44,6 +41,8 @@ public class ReportRepository {
             params.add(commands.getCityName());
         }
 
+        sb.append("GROUP BY fuel.type");
+
         PreparedStatement stmt = DBconnect.con.prepareStatement(sb.toString());
 
         StringBuilder output = new StringBuilder();
@@ -54,11 +53,16 @@ public class ReportRepository {
         }
 
         System.out.println(output.toString().trim());
-        System.out.print("Average price: ");
+        if(commands.getFuelType() !=null) {
+            System.out.println("Average price for " + commands.getFuelType());
+        }else{
+            System.out.println("Average prices: ");
+        }
         ResultSet resultSet = stmt.executeQuery();
         while (resultSet.next()) {
-            avgPrice = resultSet.getDouble("ROUND(AVG(value),2)");
+            System.out.print(resultSet.getString("fuel.type") + " - ");
+            System.out.println(resultSet.getDouble("ROUND(AVG(value),2)") + "$");
         }
-        return avgPrice;
+
     }
 }

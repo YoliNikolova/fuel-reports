@@ -24,7 +24,7 @@ public class ProcessService implements BaseService<ProcessCommands> {
         SFTPFileTransfer.filesTransfer(commands.getLimit());
         DBcreate tables = new DBcreate();
         tables.createTables();
-        this.getFilesAndSave();
+        getFilesAndSave();
         System.out.println("Data is inserted");
     }
 
