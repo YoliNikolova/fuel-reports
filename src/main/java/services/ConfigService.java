@@ -15,7 +15,8 @@ public class ConfigService implements BaseService<ConfigCommands> {
 
     @Override
     public void process(ConfigCommands commands) throws SQLException {
-        DBcreate.createConfigTable();
+        DBcreate table = new DBcreate();
+        table.createConfigTable();
         configRepository.saveFolder(commands);
     }
 }

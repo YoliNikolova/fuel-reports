@@ -73,7 +73,7 @@ public class DBcreate {
         System.out.println("Table for price is created.");
     }
 
-    public static void createConfigTable() throws SQLException {
+    public void createConfigTable() throws SQLException {
         String createConfigTable = "CREATE TABLE IF NOT EXISTS `config` (\n" +
                 "  `configFolder` VARCHAR(100) NOT NULL,\n" +
                 "  PRIMARY KEY (`configFolder`),\n" +

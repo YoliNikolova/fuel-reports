@@ -29,7 +29,7 @@ public final class SFTPFileTransfer {
 
             ProcessRepository processRepository = new ProcessRepository();
             Vector fileList = channelSftp.ls(remoteDir);
-            for (int i = 2; i <= limit + 2; i++) {
+            for (int i = 2; i <= limit + 1; i++) {
                 ChannelSftp.LsEntry entry = (ChannelSftp.LsEntry) fileList.get(i);
                 channelSftp.get(entry.getFilename(), processRepository.selectConfigLocalDir());
             }
