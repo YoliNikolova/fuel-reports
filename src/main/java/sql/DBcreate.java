@@ -6,10 +6,9 @@ import java.sql.SQLException;
 public class DBcreate {
 
     public DBcreate() {
-        this.createTables();
     }
 
-    private void createTables() {
+    public void createTables() {
         try {
             createPetrolStationTable();
             createFuelTable();

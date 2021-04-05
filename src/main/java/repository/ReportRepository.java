@@ -9,14 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportRepository implements BaseRepository<ReportCommands> {
-    @Override
-    public void run(ReportCommands commands) throws SQLException {
-        System.out.print(selectDataFromDatabase(commands));
-        System.out.println("$");
-    }
+public class ReportRepository {
 
-    private Double selectDataFromDatabase(ReportCommands commands) throws SQLException {
+    public Double selectDataFromDatabase(ReportCommands commands) throws SQLException {
         Double avgPrice = 0.0;
         String[] periodArray = commands.getPeriod().split("-");
         List<String> params = new ArrayList<>();

@@ -3,6 +3,8 @@ package entrypoints;
 import com.beust.jcommander.JCommander;
 import commands.ConfigCommands;
 import repository.ConfigRepository;
+import services.ConfigService;
+
 import java.sql.SQLException;
 
 public class Config {
@@ -13,7 +15,7 @@ public class Config {
                 .addObject(configCommands)
                 .build()
                 .parse(args);
-        ConfigRepository configRepository = new ConfigRepository();
-        configRepository.run(configCommands);
+        ConfigService configService = new ConfigService(new ConfigRepository());
+        configService.run(configCommands);
     }
 }

@@ -2,22 +2,14 @@ package repository;
 
 import commands.ConfigCommands;
 import sql.DBconnect;
-import sql.DBcreate;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ConfigRepository implements BaseRepository<ConfigCommands> {
+public class ConfigRepository {
+    public ConfigRepository(){}
 
-    public ConfigRepository() { }
-
-    @Override
-    public void run(ConfigCommands commands) throws SQLException {
-        DBcreate.createConfigTable();
-        insertConfigFolderToDatabase(commands);
-    }
-
-    private void insertConfigFolderToDatabase(ConfigCommands commands) throws SQLException {
+    public void saveFolder(ConfigCommands commands) throws SQLException {
         String insertConfigFolder = "INSERT into config(configFolder) VALUES(?)";
         PreparedStatement stmt = DBconnect.con.prepareStatement(insertConfigFolder);
         stmt.setString(1, commands.getLocalDir());

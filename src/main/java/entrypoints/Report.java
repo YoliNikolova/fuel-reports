@@ -3,6 +3,8 @@ package entrypoints;
 import com.beust.jcommander.JCommander;
 import commands.ReportCommands;
 import repository.ReportRepository;
+import services.ReportService;
+
 import java.sql.SQLException;
 
 
@@ -13,7 +15,7 @@ public class Report {
                 .addObject(reportCommands)
                 .build()
                 .parse(args);
-        ReportRepository reportRepository=new ReportRepository();
-        reportRepository.run(reportCommands);
+        ReportService reportService = new ReportService(new ReportRepository());
+        reportService.run(reportCommands);
     }
 }
