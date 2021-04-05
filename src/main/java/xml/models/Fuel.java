@@ -1,6 +1,6 @@
-package structure;
+package xml.models;
 
-import adapters.AdapterPrice;
+import xml.adapters.AdapterPrice;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

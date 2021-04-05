@@ -1,27 +1,24 @@
 package sql;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBcreate {
 
     public DBcreate() {
-        this.createTables();
     }
 
-    private void createTables() {
+    public void createTables() {
         try {
-            Connection con = DBconnect.connectDB();
-            createPetrolStationTable(con);
-            createFuelTable(con);
-            createPriceTable(con);
+            createPetrolStationTable();
+            createFuelTable();
+            createPriceTable();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
-    private void createPetrolStationTable(Connection con) throws SQLException {
+    private void createPetrolStationTable() throws SQLException {
         String createPetrolStationTable = "CREATE TABLE IF NOT EXISTS `petrolStation` (\n" +
                 "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
                 "  `name` VARCHAR(45) NULL,\n" +
@@ -29,13 +26,13 @@ public class DBcreate {
                 "  `city` VARCHAR(45) NULL,\n" +
                 "  PRIMARY KEY (`id`))\n" +
                 "ENGINE = InnoDB;";
-        PreparedStatement stmt = con.prepareStatement(createPetrolStationTable);
+        PreparedStatement stmt = DBconnect.con.prepareStatement(createPetrolStationTable);
         stmt.execute();
         stmt.close();
         System.out.println("Table for petrolStation is created.");
     }
 
-    private void createFuelTable(Connection con) throws SQLException {
+    private void createFuelTable() throws SQLException {
         String createFuelTable = "CREATE TABLE IF NOT EXISTS `fuel` (\n" +
                 "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
                 "  `type` VARCHAR(45) NULL,\n" +
@@ -43,13 +40,13 @@ public class DBcreate {
                 "  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,\n" +
                 "  UNIQUE INDEX `type_UNIQUE` (`type` ASC) VISIBLE)\n" +
                 "ENGINE = InnoDB;";
-        PreparedStatement stmt = con.prepareStatement(createFuelTable);
+        PreparedStatement stmt = DBconnect.con.prepareStatement(createFuelTable);
         stmt.execute();
         stmt.close();
         System.out.println("Table for fuel is created.");
     }
 
-    private void createPriceTable(Connection con) throws SQLException {
+    private void createPriceTable() throws SQLException {
         String createPriceTable = "CREATE TABLE IF NOT EXISTS `price` (\n" +
                 "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
                 "  `value` DOUBLE NULL,\n" +
@@ -70,9 +67,19 @@ public class DBcreate {
                 "    ON DELETE NO ACTION\n" +
                 "    ON UPDATE NO ACTION)\n" +
                 "ENGINE = InnoDB;";
-        PreparedStatement stmt = con.prepareStatement(createPriceTable);
+        PreparedStatement stmt = DBconnect.con.prepareStatement(createPriceTable);
         stmt.execute();
         stmt.close();
         System.out.println("Table for price is created.");
+    }
+
+    public void createConfigTable() throws SQLException {
+        String createConfigTable = "CREATE TABLE IF NOT EXISTS `config` (\n" +
+                "  `configFolder` VARCHAR(100) NOT NULL,\n" +
+                "  PRIMARY KEY (`configFolder`),\n" +
+                "  UNIQUE INDEX `configFolder_UNIQUE` (`configFolder` ASC) VISIBLE) ENGINE = InnoDB;";
+        PreparedStatement stmt = DBconnect.con.prepareStatement(createConfigTable);
+        stmt.execute();
+        stmt.close();
     }
 }

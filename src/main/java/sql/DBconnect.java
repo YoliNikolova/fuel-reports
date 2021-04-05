@@ -10,7 +10,8 @@ public final class DBconnect {
     private final static String PASSWORD = "root_pass";
     private final static String URL = "jdbc:mysql://localhost:3306/mydatabase1";
 
-    public static Connection connectDB() {
+    public static Connection con = connectDB();
+    private static Connection connectDB() {
         try {
             //load driver
             Class.forName(DB_DRIVER);
