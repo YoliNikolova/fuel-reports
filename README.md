@@ -17,7 +17,7 @@ MySQL
 JCommander
 
 Milestones
-Parse data from sample XML
-sftp downloader
-Store data from XML to database
-Command-line interface
+1.Parse data from sample XML
+2.sftp downloader
+3.Store data from XML to database
+4.Command-line interface
